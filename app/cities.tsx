@@ -1,24 +1,27 @@
 import {
-  StyleSheet,
-  View,
-  Text,
   Image,
   ScrollView,
+  StyleSheet,
+  Text,
   TextInput,
+  View,
+  TouchableOpacity
 } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from "react";
-import citiesData from "../data/cities.json";
+import { LinearGradient } from "expo-linear-gradient";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { useRouter } from "expo-router";
+import citiesData from "../data/cities.json";
 
 const Cities = () => {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [filteredCities, setFilteredCities] = useState(citiesData);
 
   useEffect(() => {
     console.log(search);
     const newFilteredCities = citiesData.filter((city) =>
-      city.city.includes(search)
+      city.city.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
     );
     setFilteredCities(newFilteredCities);
   }, [search]);
@@ -27,9 +30,9 @@ const Cities = () => {
     <LinearGradient colors={["#00457D", "#05051F"]} style={style.container}>
       <View style={style.inputContainer}>
         <TextInput
-          style={style.input}
           placeholder="Digite a cidade"
           placeholderTextColor={"#fff"}
+          style={style.input}
           value={search}
           onChangeText={(value) => setSearch(value)}
         />
@@ -37,8 +40,12 @@ const Cities = () => {
       </View>
       <ScrollView>
         <View style={style.scrollList}>
-          {citiesData.map((city) => (
-            <View style={style.listItem} key={city.city}>
+          {filteredCities.map((city) => (
+          <TouchableOpacity 
+          key={city.city}
+          onPress= {() => {
+          router.push(`/${city.city}`);
+        }} style={style.listItem}>
               <Image
                 style={style.cityImage}
                 source={require("../assets/images/cloud.png")}
@@ -47,8 +54,8 @@ const Cities = () => {
                 {city.city.replace(", ", " - ")}
               </Text>
               <Text style={style.cityTemp}>{city.temp}º </Text>
-            </View>
-          ))}
+          </TouchableOpacity>
+        ))}
         </View>
       </ScrollView>
     </LinearGradient>
