@@ -67,7 +67,7 @@ const style = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     gap: 16,
-    paddingTop: 60,
+    paddingTop: 70,
   },
   scrollList: {
     gap: 16,
@@ -97,7 +97,7 @@ const style = StyleSheet.create({
     height: 24,
   },
   inputContainer: {
-    height: 36,
+    height: 40,
     width: "100%",
     backgroundColor: "rgba(255, 255, 255, 0.15)",
     borderRadius: 24,
